@@ -2,10 +2,10 @@
 namespace Blackjack
 {
     public class Game
-    {
+    
         public void StartRound()
         {
-            
+
         }
         // Christoffer tar StartRound
         public void DealCards()
@@ -13,10 +13,29 @@ namespace Blackjack
 
         }
         // Christoffer tar DealCards
-        public void PlayerTurn()
+        public void PlayerTurn(Deck deck)
         {
+            bool playing = true;
 
-        }
+            while (playing && GetScore() < 21)
+            {
+                PrintHand();
+
+                Console.WriteLine("1. Hit");
+                Console.WriteLine("2. Stand");
+
+                string choice = Console.ReadLine();
+
+                if (choice == "1")
+                {
+                    TakeCard(deck);
+                }
+                else if (choice == "2")
+                {
+                    playing = false;
+
+
+                }
         // Kaltuun tar PlayerTurn
         public void DealerTurn()
         {
@@ -25,7 +44,7 @@ namespace Blackjack
         // Zeynab tar DealerTurn
         public void DetermineWinner()
         {
-            
+
         }
         // Christian tar DetermineWinner
         public void Endgame()
@@ -34,4 +53,5 @@ namespace Blackjack
         }
         // Christian tar Endgame
     }
+}
 }
