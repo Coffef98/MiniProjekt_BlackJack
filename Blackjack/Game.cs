@@ -8,22 +8,73 @@ namespace Blackjack
     public class Game
     {
 
+        private Player player;
+        private Dealer dealer;
+        private Deck deck;
+        private Bet bet;
 
         public Game()
         {
-
+            player = new Player("Spelare");
+            dealer = new Dealer();
+            deck = new Deck();
+            bet = new Bet();
         }
-
-
 
         public void StartRound()
         {
+            player.ClearHand();
+            dealer.ClearHand();
 
+            Console.WriteLine("Ny omgång Blackjack!");
+            Console.WriteLine("Hur mycket vill du satsa? (1-100kr): ");
+            if (!int.TryParse(Console.ReadLine(), out int amount))
+            {
+                Console.WriteLine("Ogiltig inmatning, ange ett heltal!");
+                return;
+            }
+
+            if (bet.PlaceBet(amount, player.Balance))
+            {
+                player.Balance -= amount;
+                Console.WriteLine($"Du satsade {amount} kr!");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltig satsning!");
+                return;
+            }
+            DealCards();
+            player.PrintHand();
+            bool playerBlackjack = player.GetScore() == 21 && player.Cards.Count == 2;
+            bool dealerBlackjack = dealer.GetScore() == 21 && dealer.Cards.Count == 2;
+            Console.WriteLine($"Dealerns synliga kort: {dealer.Cards[0]}");
+            Console.WriteLine("Dealerns andra kort är dolt.");
+
+            if (!playerBlackjack && !dealerBlackjack)
+            {
+                PlayerTurn(deck);
+            }
+
+            if (!playerBlackjack && !dealerBlackjack && player.GetScore() <= 21)
+            {
+                DealerTurn();
+            }
+
+            Console.WriteLine("Dealerns hand:");
+            dealer.PrintHand();
+
+            DetermineWinner();
+            Endgame();
         }
         // Christoffer tar StartRound
         public void DealCards()
         {
+            player.TakeCard(deck);
+            dealer.TakeCard(deck);
 
+            player.TakeCard(deck);
+            dealer.TakeCard(deck);
         }
         // Christoffer tar DealCards
         public void PlayerTurn(Deck deck)
@@ -121,5 +172,5 @@ namespace Blackjack
         // Christian tar Endgame
     }
 }
-}
+
 
