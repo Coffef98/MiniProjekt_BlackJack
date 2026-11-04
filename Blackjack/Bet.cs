@@ -23,3 +23,9 @@ namespace Blackjack
 
     }
 }
+
+
+
+// du ska alltid kunna satsa så mycket pengar som du har 
+// börjar med 100 kr då kan du satsa 1-100 kr 
+// har du vunnit tex 1054 kr så ska du alltid kunna satsa så mycket som du har vi det tillfället så nu 1054 högsta insats.

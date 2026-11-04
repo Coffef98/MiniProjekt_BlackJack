@@ -1,7 +1,8 @@
 ﻿using Blackjack;
 using System.Xml.Serialization;
 
-
+Console.WriteLine("---Magic Turtels---");
+Console.WriteLine();
 while(true)
 {
     Console.WriteLine("============= Black Jack ============================================");
