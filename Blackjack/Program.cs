@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 while(true)
 {
-    Console.WriteLine("=============Black Jack ==================");
+    Console.WriteLine("=============Black Jack =============================================");
     Console.Write("1: Spela ");
     Console.Write("2: Topplista ");
     Console.Write("3: Regler ");
@@ -40,7 +40,32 @@ while(true)
 
     else if(choice == "3") // Val 3 i menyn Regler
     {
+        Console.WriteLine();
+        Console.WriteLine("============= Regler ================================================");
+        Console.WriteLine("Målet: Kom så nära 21 poäng som möjligt utan att gå över. Du spelar mot dealern (banken).");
 
+        Console.WriteLine("       Situation          |       Resultat");
+        Console.WriteLine("---------------------------------------------------------------------");
+        Console.WriteLine("Du har 20, dealern 18     |       Du vinner");
+        Console.WriteLine("Du har 18, dealern 20     |       Dealern vinner ");
+        Console.WriteLine("Du har 19, dealern 19     |       Oavgjort");
+        Console.WriteLine("Du får över 21            |       Du förlorar");
+        Console.WriteLine("Dealern får över 21       |       Du vinner om du inte redan förlorat"); 
+        Console.WriteLine("Ess + 10 första två kort  |       Blackjack");
+        Console.WriteLine("---------------------------------------------------------------------");
+        Console.WriteLine("Dealern måste normalt dra kort tills den har minst 17 poäng.");
+        Console.WriteLine("När du stannar spelar dealern sin tur.");
+        Console.WriteLine("Om du får över 21 förlorar du direkt.");
+        Console.WriteLine("");
+        Console.WriteLine("Du väljer mellan:");
+        Console.WriteLine("Hit (Ta kort): Dra ytterligare ett kort.");
+        Console.WriteLine("Stand (Stanna): Behåll dina poäng.");
+        Console.WriteLine("Du och dealern får två kort var.");
+        Console.WriteLine("Ess: 1 eller 11 poäng, beroende på vad som är bäst för handen.");
+        Console.WriteLine("Knekt, dam, kung: 10 poäng.");
+        Console.WriteLine("2–10: Kortets värde.");
+        Console.WriteLine("");
+        Console.WriteLine("");
     }
     //---------3: Regler Slutar här----------------
 
