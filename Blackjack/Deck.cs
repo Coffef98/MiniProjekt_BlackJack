@@ -31,12 +31,12 @@ namespace Blackjack
         public void Shuffle()
         {
             Random random = new Random();
-            for (int i = _cards.Count - 1; i > 0; i--)
+            for (int i = _cards.Count - 1; i > 0; i--) // Börjar på sista kortets index och går bakåt genom listan
             {
-                int j = random.Next(i + 1);
-                Card temp = _cards[i];
-                _cards[i] = _cards[j];
-                _cards[j] = temp;
+                int j = random.Next(i + 1); // väljer ett slumpmässigt index mellan 0 och i 
+                Card temp = _cards[i]; // sparar kortet på plats i tillfälligt 
+                _cards[i] = _cards[j]; // flyttar kortet från plats j till plats i 
+                _cards[j] = temp; // lägger det sparade kortet på plats j 
             }
         }
         public Card DrawCard()
