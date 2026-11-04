@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 while(true)
 {
-    Console.WriteLine("=============Black Jack =============================================");
+    Console.WriteLine("============= Black Jack ============================================");
     Console.Write("1: Spela ");
     Console.Write("2: Topplista ");
     Console.Write("3: Regler ");
