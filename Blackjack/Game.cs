@@ -38,15 +38,23 @@ namespace Blackjack
             }
             DealCards();
             player.PrintHand();
+            bool playerBlackjack = player.GetScore() == 21 && player.Cards.Count == 2;
+            bool dealerBlackjack = dealer.GetScore() == 21 && dealer.Cards.Count == 2;
             Console.WriteLine($"Dealerns synliga kort: {dealer.Cards[0]}");
             Console.WriteLine("Dealerns andra kort är dolt.");
 
-            PlayerTurn(deck);
+            if (!playerBlackjack && !dealerBlackjack)
+            {
+                PlayerTurn(deck);
+            }
 
-            if (player.GetScore() <= 21)
+            if (!playerBlackjack && !dealerBlackjack && player.GetScore() <= 21)
             {
                 DealerTurn();
             }
+
+            Console.WriteLine("Dealerns hand:");
+            dealer.PrintHand();
 
             DetermineWinner();
             Endgame();
