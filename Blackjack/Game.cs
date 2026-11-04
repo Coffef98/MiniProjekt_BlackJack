@@ -7,14 +7,50 @@ namespace Blackjack
 {
     public class Game
     {
+
+        private Player player = new Player("Spelare");
+        private Dealer dealer = new Dealer();
+        private Deck deck = new Deck();
+        private Bet bet = new Bet();
+
         public void StartRound()
         {
+            player.ClearHand();
+            dealer.ClearHand();
 
+            Console.WriteLine("Ny omgång Blackjack!");
+            Console.WriteLine("Hur mycket vill du satsa? (1-100kr): ");
+            if (!int.TryParse(Console.ReadLine(), out int amount))
+            {
+                Console.WriteLine("Ogiltig inmatning, ange ett heltal!");
+                return;
+            }
+
+            if (bet.PlaceBet(amount, player.Balance))
+            {
+                player.Balance -= amount;
+                Console.WriteLine($"Du satsade {amount} kr!");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltig satsning!");
+                return;
+            }
+            DealCards();
+            player.PrintHand();
+            Console.WriteLine($"Dealerns synliga kort: {dealer.Cards[0]}");
+            Console.WriteLine("Dealerns andra kort är dolt.");
+
+            PlayerTurn(deck);
         }
         // Christoffer tar StartRound
         public void DealCards()
         {
+            player.TakeCard(deck);
+            dealer.TakeCard(deck);
 
+            player.TakeCard(deck);
+            dealer.TakeCard(deck);
         }
         // Christoffer tar DealCards
         public void PlayerTurn(Deck deck)
