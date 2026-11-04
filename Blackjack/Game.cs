@@ -42,6 +42,14 @@ namespace Blackjack
             Console.WriteLine("Dealerns andra kort är dolt.");
 
             PlayerTurn(deck);
+
+            if (player.GetScore() <= 21)
+            {
+                DealerTurn();
+            }
+
+            DetermineWinner();
+            Endgame();
         }
         // Christoffer tar StartRound
         public void DealCards()
