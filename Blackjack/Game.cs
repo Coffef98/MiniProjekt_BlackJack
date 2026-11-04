@@ -3,16 +3,10 @@ namespace Blackjack
 {
     public class Game
     {
-        private Player player;
-        private Dealer dealer;
-        private Deck deck;
-
+     
         public Game()
         {
-            player = new Player("Spelare");
-            dealer = new Dealer();
-            deck = new Deck();
-
+            
         }
 
 
