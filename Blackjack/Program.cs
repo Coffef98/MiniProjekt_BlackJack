@@ -42,8 +42,9 @@ while(true)
     {
         Console.WriteLine();
         Console.WriteLine("============= Regler ================================================");
-        Console.WriteLine("Målet: Kom så nära 21 poäng som möjligt utan att gå över. Du spelar mot dealern (banken).");
-
+        Console.WriteLine("Målet: Kom så nära 21 poäng som möjligt utan att gå över. ");
+        Console.WriteLine("Du spelar mot dealern (banken).");
+        Console.WriteLine();
         Console.WriteLine("       Situation          |       Resultat");
         Console.WriteLine("---------------------------------------------------------------------");
         Console.WriteLine("Du har 20, dealern 18     |       Du vinner");
