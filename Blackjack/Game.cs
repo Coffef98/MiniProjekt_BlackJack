@@ -39,6 +39,10 @@ namespace Blackjack
         // Kaltuun tar PlayerTurn
         public void DealerTurn()
         {
+            while(dealer.Getscore()<17)
+            {
+                dealer.AddCard(deck.DrawCard());
+            }
 
         }
         // Zeynab tar DealerTurn
