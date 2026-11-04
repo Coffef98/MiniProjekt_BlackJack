@@ -20,11 +20,16 @@ namespace Blackjack
         // Kaltuun tar PlayerTurn
         public void DealerTurn()
         {
-            while(dealer.Getscore()<17)
+            Console.WriteLine("--- Dealerns tur ---");
+
+            while (dealer.GetScore() < 17)
             {
-                dealer.AddCard(deck.DrawCard());
+                Card newCard = deck.DrawCard();
+                dealer.AddCard(newCard);
+                Console.WriteLine($"Dealern drog ett kort och har nu {dealer.GetScore()} poäng.");
             }
 
+            Console.WriteLine($"Dealern stannar på {dealer.GetScore()} poäng.");
         }
         // Zeynab tar DealerTurn
         public void DetermineWinner()
