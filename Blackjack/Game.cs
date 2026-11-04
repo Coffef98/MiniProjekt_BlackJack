@@ -2,7 +2,20 @@
 namespace Blackjack
 {
     public class Game
-    
+    {
+        private Player player;
+        private Dealer dealer;
+        private Deck deck;
+
+        public Game()
+        {
+            player = new Player("Spelare");
+            dealer = new Dealer();
+            deck = new Deck();
+
+        }
+
+
         public void StartRound()
         {
 
@@ -17,9 +30,9 @@ namespace Blackjack
         {
             bool playing = true;
 
-            while (playing && GetScore() < 21)
+            while (playing && player.GetScore() < 21)
             {
-                PrintHand();
+                player.PrintHand();
 
                 Console.WriteLine("1. Hit");
                 Console.WriteLine("2. Stand");
@@ -28,7 +41,7 @@ namespace Blackjack
 
                 if (choice == "1")
                 {
-                    TakeCard(deck);
+                    player.TakeCard(deck);
                 }
                 else if (choice == "2")
                 {
@@ -36,6 +49,8 @@ namespace Blackjack
 
 
                 }
+            }
+        }
         // Kaltuun tar PlayerTurn
         public void DealerTurn()
         {
@@ -54,4 +69,4 @@ namespace Blackjack
         // Christian tar Endgame
     }
 }
-}
+
