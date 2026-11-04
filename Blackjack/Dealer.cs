@@ -1,4 +1,4 @@
-namespace BlackJack
+namespace Blackjack
 {
     public class Dealer : Player
     {
@@ -6,7 +6,7 @@ namespace BlackJack
         {
             
         }
-        public void PalyTurn(Deck deck)
+        public void PlayTurn(Deck deck)
         {
             while (GetScore() < 17)
             {

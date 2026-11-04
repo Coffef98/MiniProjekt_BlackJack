@@ -24,6 +24,11 @@ namespace Blackjack
         {
             Cards.Add(card);
         }
+        public void TakeCard(Deck deck)
+        {
+            Card card = deck.DrawCard();
+            AddCard(card);
+        }
 
         public void ClearHand()
         {
@@ -65,7 +70,7 @@ namespace Blackjack
         }
     }
 }
-                
-            
-        
-   
+
+
+
+
