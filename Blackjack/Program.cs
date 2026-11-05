@@ -29,6 +29,7 @@ while(true)
         {
             Console.WriteLine("Du måste ange ett namn!");
             Console.Write("Ange ditt namn: ");
+            playerName = Console.ReadLine()?.Trim() ?? "";
         }
         Game game = new Game(playerName);
 
