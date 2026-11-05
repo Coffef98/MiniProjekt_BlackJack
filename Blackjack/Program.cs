@@ -51,6 +51,51 @@ while(true)
     {
         Leaderboard leaderboard = new Leaderboard();
         leaderboard.ShowLeaderboard();
+        Console.WriteLine();
+        Console.WriteLine("0. Tillbaka till huvudmenyn");
+        Console.Write("Välj spelare att fortsätta med: ");
+        
+        string input = Console.ReadLine() ?? "";
+        Console.WriteLine();
+
+        if (int.TryParse(input, out int position))
+        {
+            if (position == 0)
+            {
+                Console.WriteLine("Tillbaka till huvudmenyn.");
+                Console.WriteLine();
+            }
+            else if (position > 0)
+            {
+                LeaderboardEntry? savedPlayer = leaderboard.GetPlayer(position);
+
+                if (savedPlayer != null)
+                {
+                    Game game = new Game(savedPlayer);
+                    bool playAgain = true;
+
+                    while (playAgain)
+                    {
+                        game.StartRound();
+                        playAgain = game.Endgame();
+                    }
+
+                    game.SaveResult();
+                }
+                else
+                {
+                    Console.WriteLine("Spelaren finns inte i topplistan.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val!");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Du måste skriva ett nummer!");
+        }
     }
     //-----------2: Topplista slutar här-----------
 
@@ -73,7 +118,7 @@ while(true)
         Console.WriteLine("Dealern får över 21       |       Du vinner om du inte redan förlorat"); 
         Console.WriteLine("Ess + 10 första två kort  |       Blackjack");
         Console.WriteLine("---------------------------------------------------------------------");
-        Console.WriteLine("Dealern måste normalt dra kort tills den har minst 17 poäng.");
+        Console.WriteLine("Dealern måste dra kort tills den har minst 17 poäng..");
         Console.WriteLine("När du stannar spelar dealern sin tur.");
         Console.WriteLine("Om du får över 21 förlorar du direkt.");
         Console.WriteLine("");

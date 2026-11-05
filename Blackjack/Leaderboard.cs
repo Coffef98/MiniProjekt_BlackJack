@@ -26,6 +26,21 @@ namespace Blackjack
 
                     entries = JsonSerializer.Deserialize<List<LeaderboardEntry>>(json)
                               ?? new List<LeaderboardEntry>();
+
+                    bool idsChanged = false;
+
+                    foreach (var entry in entries)
+                    {
+                        if (string.IsNullOrWhiteSpace(entry.Id))
+                        {
+                            entry.Id = Guid.NewGuid().ToString();
+                            idsChanged = true;
+                        }
+                    }
+                    if (idsChanged)
+                    {
+                        Save();
+                    }
                 }
                 catch (JsonException)
                 {
@@ -63,6 +78,33 @@ namespace Blackjack
             entries.Add(entry);
             Save();
         }
+        public void UpdateEntry(LeaderboardEntry updatedEntry)
+        {
+            if (loadFailed)
+            {
+                Console.WriteLine("Topplistan kunde inte läsas.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(updatedEntry.Id))
+            {
+                Console.WriteLine("Spelaren saknar ID!");
+                return;
+            }
+            var existing = entries.FirstOrDefault(e => e.Id == updatedEntry.Id);
+
+            if (existing != null)
+            {
+                existing.Score = updatedEntry.Score;
+                existing.Rounds = updatedEntry.Rounds;
+                existing.RoundsWon = updatedEntry.RoundsWon;
+
+                Save();
+            }
+            else
+            {
+                Console.WriteLine("Spelaren hittades inte i topplistan.");
+            }
+        }
         public void ShowLeaderboard()
         {
             var sortedEntries = entries.OrderByDescending(e => e.Score).ToList();
@@ -77,6 +119,15 @@ namespace Blackjack
                 Console.WriteLine($"{position,-3} {entry.Name,-20} {entry.Score,8} kr | {entry.Rounds,5} rundor | {winRate,6:F1} %");
                 position++;
             }
+        }
+        public LeaderboardEntry? GetPlayer(int position)
+        {
+            var sortedEntries = entries.OrderByDescending(e => e.Score).ToList();
+            if (position >= 1 && position <= sortedEntries.Count)
+            {
+                return sortedEntries[position - 1];
+            }
+            return null;
         }
     }
 }

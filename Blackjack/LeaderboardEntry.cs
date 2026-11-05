@@ -7,6 +7,7 @@ namespace Blackjack
 {
     public class LeaderboardEntry
     {
+        public string Id { get; set; } = "";
         public string Name { get; set; } = "";
         public int Score { get; set; }
         public int Rounds { get; set; }

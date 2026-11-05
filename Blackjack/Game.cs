@@ -15,6 +15,8 @@ namespace Blackjack
         private int startingBalance;
         private int roundsPlayed = 0;
         private int roundsWon = 0;
+        private string playerId;
+        private bool isSavedPlayer;
 
         public Game(string playerName)
         {
@@ -24,6 +26,24 @@ namespace Blackjack
             bet = new Bet();
 
             startingBalance = player.Balance;
+            playerId = Guid.NewGuid().ToString();
+            isSavedPlayer = false;
+        }
+        public Game(LeaderboardEntry savedPlayer)
+        {
+            player = new Player(savedPlayer.Name);
+            player.Balance = savedPlayer.Score;
+
+            dealer = new Dealer();
+            deck = new Deck();
+            bet = new Bet();
+
+            roundsPlayed = savedPlayer.Rounds;
+            roundsWon = savedPlayer.RoundsWon;
+
+            startingBalance = player.Balance;
+            playerId = savedPlayer.Id;
+            isSavedPlayer = true;
         }
 
         public void StartRound()
@@ -170,6 +190,11 @@ namespace Blackjack
         {
             int totalProfit = player.Balance - startingBalance;
             Console.WriteLine($"Omgång klar! Antal rundor [{roundsPlayed}]. {totalProfit:+0;-0;0} kr! Aktuellt saldo: {player.Balance}kr");
+            if (player.Balance <= 0)
+            {
+                Console.WriteLine("Du har slut på pengar! Spelet avslutas.");
+                return false;
+            }
             Console.Write("Spela igen ja/nej?");
             while (true)
             {
@@ -190,13 +215,22 @@ namespace Blackjack
         {
             LeaderboardEntry entry = new LeaderboardEntry
             {
+                Id = playerId,
                 Name = player.Name,
                 Score = player.Balance,
                 Rounds = roundsPlayed,
                 RoundsWon = roundsWon
             };
             Leaderboard leaderboard = new Leaderboard();
-            leaderboard.AddEntry(entry);
+
+            if (isSavedPlayer)
+            {
+                leaderboard.UpdateEntry(entry);
+            }
+            else
+            {
+                leaderboard.AddEntry(entry);
+            }
         }
         // Christian tar Endgame
     }
