@@ -74,7 +74,7 @@ namespace Blackjack
                 double winRate = entry.Rounds > 0
                     ? (double)entry.RoundsWon / entry.Rounds * 100
                     : 0;
-                Console.WriteLine($"{position}. {entry.Name} - {entry.Score} kr | {entry.Rounds} rundor | {winRate:F1} %");
+                Console.WriteLine($"{position,-3} {entry.Name,-20} {entry.Score,8} kr | {entry.Rounds,5} rundor | {winRate,6:F1} %");
                 position++;
             }
         }
