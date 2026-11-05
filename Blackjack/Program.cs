@@ -1,11 +1,12 @@
 ﻿using Blackjack;
 using System.Xml.Serialization;
 
-Console.WriteLine("---Magic Turtels---");
-Console.WriteLine();
+Console.WriteLine("---Magic Turtles---");
 while(true)
 {
-    Console.WriteLine("============= Black Jack ============================================");
+    Console.WriteLine();
+
+    Console.WriteLine("=========== Black Jack ===========");
     Console.Write("1: Spela ");
     Console.Write("2: Topplista ");
     Console.Write("3: Regler ");
