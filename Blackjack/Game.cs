@@ -153,7 +153,7 @@ namespace Blackjack
             roundsPlayed++;
             int playerScore = player.GetScore();              
             int dealerScore = dealer.GetScore();              
-            int winning = (int)(bet.Amount * 1.5);
+            int winning = (int)(bet.Amount * 1);
             if (playerScore > 21)
             {
                 Console.WriteLine($"Över 21 du förlorade!  -{bet.Amount} kr , saldo kvar: {player.Balance} kr");
