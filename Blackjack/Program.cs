@@ -22,7 +22,24 @@ while(true)
     
     if(choice == "1") // Val 1 i menyn Spela
     {
+        Console.Write("Ange ditt namn: ");
 
+        string playerName = Console.ReadLine()?.Trim() ?? "";
+        while (string.IsNullOrWhiteSpace(playerName))
+        {
+            Console.WriteLine("Du måste ange ett namn!");
+            Console.Write("Ange ditt namn: ");
+        }
+        Game game = new Game(playerName);
+
+        bool playAgain = true;
+
+        while (playAgain)
+        {
+            game.StartRound();
+            playAgain = game.Endgame();
+        }
+        game.SaveResult();
     }
     //------------1: Spela slut här----------------
 
@@ -32,7 +49,8 @@ while(true)
 
     else if(choice == "2") // Val 2 menyn Topplista
     {
-
+        Leaderboard leaderboard = new Leaderboard();
+        leaderboard.ShowLeaderboard();
     }
     //-----------2: Topplista slutar här-----------
 

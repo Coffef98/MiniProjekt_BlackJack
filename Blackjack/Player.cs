@@ -61,11 +61,11 @@ namespace Blackjack
 
         public void PrintHand()
         {
-            Console.Write($"{Name}:");
-            foreach (var card in Cards)
-            {
-                Console.Write($"{card} ");
-            }
+            Console.Write($"{Name}: ");
+
+            Console.Write(string.Join(" + ",
+                Cards.Select(card => $"kort {card.Value}")));
+
             Console.WriteLine($" = {GetScore()}p");
         }
     }

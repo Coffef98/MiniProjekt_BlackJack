@@ -12,43 +12,59 @@ namespace Blackjack
         private Dealer dealer;
         private Deck deck;
         private Bet bet;
+        private int startingBalance;
+        private int roundsPlayed = 0;
+        private int roundsWon = 0;
 
-        public Game()
+        public Game(string playerName)
         {
-            player = new Player("Spelare");
+            player = new Player(playerName);
             dealer = new Dealer();
             deck = new Deck();
             bet = new Bet();
+
+            startingBalance = player.Balance;
         }
 
         public void StartRound()
         {
+            if (player.Balance <= 0)
+            {
+                Console.WriteLine("Du har inga pengar kvar!");
+                return;
+            }
+            bet.ResetBet();
             player.ClearHand();
             dealer.ClearHand();
 
             Console.WriteLine("Ny omgång Blackjack!");
-            Console.WriteLine("Hur mycket vill du satsa? (1-100kr): ");
-            if (!int.TryParse(Console.ReadLine(), out int amount))
+            while (true)
             {
-                Console.WriteLine("Ogiltig inmatning, ange ett heltal!");
-                return;
-            }
+                Console.Write($"Hur mycket vill du satsa? (1-{player.Balance}kr): ");
+                if (!int.TryParse(Console.ReadLine(), out int amount))
+                {
+                    Console.WriteLine("Ogiltig inmatning, ange ett heltal!");
+                    continue;
+                }
 
-            if (bet.PlaceBet(amount, player.Balance))
-            {
-                player.Balance -= amount;
-                Console.WriteLine($"Du satsade {amount} kr!");
+                if (bet.PlaceBet(amount, player.Balance))
+                {
+                    player.Balance -= amount;
+                    Console.WriteLine($"Du satsade {amount} kr!");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltig satsning!");
+                    continue;
+                }
             }
-            else
-            {
-                Console.WriteLine("Ogiltig satsning!");
-                return;
-            }
+        
             DealCards();
             player.PrintHand();
             bool playerBlackjack = player.GetScore() == 21 && player.Cards.Count == 2;
             bool dealerBlackjack = dealer.GetScore() == 21 && dealer.Cards.Count == 2;
-            Console.WriteLine($"Dealerns synliga kort: {dealer.Cards[0]}");
+            Console.WriteLine($"Dealerns synliga kort: kort {dealer.Cards[0].Value}");
             Console.WriteLine("Dealerns andra kort är dolt.");
 
             if (!playerBlackjack && !dealerBlackjack)
@@ -60,12 +76,7 @@ namespace Blackjack
             {
                 DealerTurn();
             }
-
-            Console.WriteLine("Dealerns hand:");
-            dealer.PrintHand();
-
             DetermineWinner();
-            Endgame();
         }
         // Christoffer tar StartRound
         public void DealCards()
@@ -83,16 +94,17 @@ namespace Blackjack
 
             while (playing && player.GetScore() < 21)
             {
-                player.PrintHand();
+                
 
-                Console.WriteLine("1. Hit");
-                Console.WriteLine("2. Stand");
+                Console.Write("1. Hit! 2. Stand! Val: ");
 
                 string choice = Console.ReadLine();
+                Console.WriteLine();
 
                 if (choice == "1")
                 {
                     player.TakeCard(deck);
+                    player.PrintHand();
                 }
                 else if (choice == "2")
                 {
@@ -111,63 +123,80 @@ namespace Blackjack
             {
                 Card newCard = deck.DrawCard();
                 dealer.AddCard(newCard);
-                Console.WriteLine($"Dealern drog ett kort och har nu {dealer.GetScore()} poäng.");
             }
-
+            dealer.PrintHand();
             Console.WriteLine($"Dealern stannar på {dealer.GetScore()} poäng.");
         }
         // Zeynab tar DealerTurn
         public void DetermineWinner()
         {
-            int playerScore = player.GetScore();              // poängen är tillfälligt för test (23), spelar poängen ska senare hämtas!!!
-            int dealerScore = dealer.GetScore();              // poängen är tillfälligt för test (19),dealer poäng ska senare hämtas!!!
+            roundsPlayed++;
+            int playerScore = player.GetScore();              
+            int dealerScore = dealer.GetScore();              
             int winning = (int)(bet.Amount * 1.5);
             if (playerScore > 21)
             {
-                Console.WriteLine($"Över 21 du förlorade!  -{winning} kr , saldo kvar: {player.Balance} kr");
+                Console.WriteLine($"Över 21 du förlorade!  -{bet.Amount} kr , saldo kvar: {player.Balance} kr");
                 return;
             }
             if (dealerScore > 21)
             {
-                Console.WriteLine($"Du vann! Dealern gick över 21. +{winning} kr , saldo {player.Balance} kr");
+                roundsWon++;
+                player.Balance += bet.Amount + winning;
+                Console.WriteLine($"Du vann! Dealern gick över 21. +{winning} kr , saldo: {player.Balance} kr");
                 return;
             }
             if (playerScore > dealerScore)       // kontrollrar att spelare har mer poäng än dealern
             {
-
+                roundsWon++;
                 player.Balance += bet.Amount + winning;
-                Console.WriteLine($"Du vann! +{winning} kr , saldo {player.Balance} kr");
+                Console.WriteLine($"Du vann! +{winning} kr , saldo: {player.Balance} kr");
                 return;
             }
             if (playerScore < dealerScore)
             {
-                Console.WriteLine($"Du förlorade! -{bet.Amount} kr , saldo kvar {player.Balance} kr");
+                Console.WriteLine($"Du förlorade! -{bet.Amount} kr , saldo kvar: {player.Balance} kr");
                 return;
             }
             if (playerScore == dealerScore)
             {
                 player.Balance += bet.Amount;
-                Console.WriteLine($"Oavgjort! + - 0 kr , Saldo: {player.Balance} kr");
+                Console.WriteLine($"Oavgjort! Insatsen {bet.Amount} kr tillbaka! Saldo: {player.Balance} kr");
                 return;
             }
         }
         // Christian tar DetermineWinner
-        public void Endgame()
+        public bool Endgame()
         {
             int totalProfit = player.Balance - startingBalance;
-            Console.WriteLine($"Omgång klar! Antal rundor {totalProfit:+0;-0;0}st! Aktuellt saldo: {player.Balance}kr");
+            Console.WriteLine($"Omgång klar! Antal rundor [{roundsPlayed}]. {totalProfit:+0;-0;0} kr! Aktuellt saldo: {player.Balance}kr");
             Console.Write("Spela igen ja/nej?");
-            string playAgain = Console.ReadLine() ?? "";
-            if (playAgain == "ja")
+            while (true)
             {
-                StartRound();
-                return;
-            }
-            else if (playAgain == "nej")
-            {
-                return;
-            }
+                string playAgain = Console.ReadLine()?.Trim().ToLower() ?? "";
+                if (playAgain == "ja")
+                {
 
+                    return true;
+                }
+                else if (playAgain == "nej")
+                {
+                    return false;
+                }
+                Console.WriteLine("Fel inmatning!");
+            }
+        }
+        public void SaveResult()
+        {
+            LeaderboardEntry entry = new LeaderboardEntry
+            {
+                Name = player.Name,
+                Score = player.Balance,
+                Rounds = roundsPlayed,
+                RoundsWon = roundsWon
+            };
+            Leaderboard leaderboard = new Leaderboard();
+            leaderboard.AddEntry(entry);
         }
         // Christian tar Endgame
     }

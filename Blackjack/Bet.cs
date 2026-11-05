@@ -7,9 +7,13 @@ namespace Blackjack
     public class Bet
     {
         public int Amount {  get; private set; }
+        public void ResetBet()
+        {
+            Amount = 0;
+        }
         public bool IsValidBet(int amount, int balance)
         {
-            return amount >= 1 && amount <= 100 && amount <= balance;
+            return amount >= 1 && amount <= balance;
         }
         public bool PlaceBet(int amount, int balance)
         {

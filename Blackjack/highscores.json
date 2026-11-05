@@ -2,16 +2,19 @@
   {
     "Name": "Maja",
     "Score": 250,
-    "Rounds": 14
+    "Rounds": 14,
+    "RoundsWon": 8
   },
   {
     "Name": "Omar",
     "Score": 180,
-    "Rounds": 9
+    "Rounds": 9,
+    "RoundsWon": 5
   },
   {
     "Name": "Lisa",
     "Score": 120,
-    "Rounds": 5
+    "Rounds": 5,
+    "RoundsWon": 2
   }
 ]
