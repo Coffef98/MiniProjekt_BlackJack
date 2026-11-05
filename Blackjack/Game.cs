@@ -56,7 +56,9 @@ namespace Blackjack
             bet.ResetBet();
             player.ClearHand();
             dealer.ClearHand();
+            deck = new Deck();
 
+            Console.WriteLine();
             Console.WriteLine("Ny omgång Blackjack!");
             while (true)
             {
@@ -152,13 +154,37 @@ namespace Blackjack
         {
             roundsPlayed++;
             int playerScore = player.GetScore();              
-            int dealerScore = dealer.GetScore();              
+            int dealerScore = dealer.GetScore();
+            bool playerBlackjack = playerScore == 21 && player.Cards.Count == 2;
+            bool dealerBlackjack = dealerScore == 21 && dealer.Cards.Count == 2;
             int winning = (int)(bet.Amount * 1);
+            if (playerBlackjack && dealerBlackjack)
+            {
+                player.Balance += bet.Amount;
+                Console.WriteLine($"Oavgjort! Insatsen {bet.Amount} kr tillbaka! Saldo: {player.Balance} kr");
+                return;
+            }
             if (playerScore > 21)
             {
                 Console.WriteLine($"Över 21 du förlorade!  -{bet.Amount} kr , saldo kvar: {player.Balance} kr");
                 return;
             }
+
+            if (playerBlackjack == true)
+            {
+                roundsWon++;
+                int blackjackWinning = (int)(bet.Amount * 1.5);
+                player.Balance += bet.Amount + blackjackWinning;
+                Console.WriteLine($"Blackjack! +{blackjackWinning} kr, saldo: {player.Balance} kr");
+                return;
+            }
+
+            if (dealerBlackjack == true)
+            {
+                Console.WriteLine($"Dealer Blackjack, du förlorade! -{bet.Amount} kr, saldo kvar: {player.Balance} kr");
+                return;
+            }
+             
             if (dealerScore > 21)
             {
                 roundsWon++;
