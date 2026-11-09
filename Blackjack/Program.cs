@@ -1,16 +1,29 @@
-﻿using Blackjack;
+﻿using System.Windows.Forms;
+using Blackjack;
 using System.Xml.Serialization;
 
-Console.WriteLine("---Magic Turtles---");
-while(true)
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+Application.Run(new SplashScreen());
+
+
+while (true)
 {
     Console.WriteLine();
 
-    Console.WriteLine("=========== Black Jack ===========");
-    Console.Write("1: Spela ");
-    Console.Write("2: Topplista ");
-    Console.Write("3: Regler ");
-    Console.Write("4: Avsluta ");
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("========== MAGIC TURTELS BLACKJACK ==================================");
+    Console.ResetColor();
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write("1: Spela  ");
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.Write("2: Topplista  ");
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.Write("3: Regler  ");
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine("4: Avsluta");
+    Console.ResetColor();
+
     Console.WriteLine();
     Console.Write("Välj ett alternativ 1-4: ");
     string choice = Console.ReadLine() ??""; 

@@ -86,8 +86,24 @@ namespace Blackjack
             player.PrintHand();
             bool playerBlackjack = player.GetScore() == 21 && player.Cards.Count == 2;
             bool dealerBlackjack = dealer.GetScore() == 21 && dealer.Cards.Count == 2;
-            Console.WriteLine($"Dealerns synliga kort: kort {dealer.Cards[0].Value}");
-            Console.WriteLine("Dealerns andra kort är dolt.");
+            Card visibleCard = dealer.Cards[0];
+
+            Console.Write("Dealerns synliga kort: ");
+
+            if (visibleCard.Suit == "Hjärter" || visibleCard.Suit == "Ruter")
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            Console.Write($"{visibleCard.Name}{visibleCard.Symbol}");
+
+            Console.ResetColor();
+
+            Console.WriteLine(" | Dolt kort: [?]");
 
             if (!playerBlackjack && !dealerBlackjack)
             {
@@ -161,12 +177,16 @@ namespace Blackjack
             if (playerBlackjack && dealerBlackjack)
             {
                 player.Balance += bet.Amount;
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"Oavgjort! Insatsen {bet.Amount} kr tillbaka! Saldo: {player.Balance} kr");
+                Console.ResetColor();
                 return;
             }
             if (playerScore > 21)
             {
-                Console.WriteLine($"Över 21 du förlorade!  -{bet.Amount} kr , saldo kvar: {player.Balance} kr");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Över 21 du förlorade! -{bet.Amount} kr, saldo kvar: {player.Balance} kr");
+                Console.ResetColor();
                 return;
             }
 
@@ -175,13 +195,17 @@ namespace Blackjack
                 roundsWon++;
                 int blackjackWinning = (int)(bet.Amount * 1.5);
                 player.Balance += bet.Amount + blackjackWinning;
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Blackjack! +{blackjackWinning} kr, saldo: {player.Balance} kr");
+                Console.ResetColor();
                 return;
             }
 
             if (dealerBlackjack == true)
             {
-                Console.WriteLine($"Dealer Blackjack, du förlorade! -{bet.Amount} kr, saldo kvar: {player.Balance} kr");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Dealer Blackjack, Du förlorade! -{bet.Amount} kr, saldo kvar: {player.Balance} kr");
+                Console.ResetColor();
                 return;
             }
              
@@ -189,25 +213,34 @@ namespace Blackjack
             {
                 roundsWon++;
                 player.Balance += bet.Amount + winning;
-                Console.WriteLine($"Du vann! Dealern gick över 21. +{winning} kr , saldo: {player.Balance} kr");
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Du vann! Dealern gick över 21. +{winning} kr, saldo: {player.Balance} kr");
+                Console.ResetColor();
                 return;
             }
             if (playerScore > dealerScore)       // kontrollrar att spelare har mer poäng än dealern
             {
                 roundsWon++;
                 player.Balance += bet.Amount + winning;
-                Console.WriteLine($"Du vann! +{winning} kr , saldo: {player.Balance} kr");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Du vann! +{winning} kr, saldo: {player.Balance} kr");
+                Console.ResetColor();
                 return;
             }
             if (playerScore < dealerScore)
             {
-                Console.WriteLine($"Du förlorade! -{bet.Amount} kr , saldo kvar: {player.Balance} kr");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Du förlorade! -{bet.Amount} kr, saldo kvar: {player.Balance} kr");
+                Console.ResetColor();
                 return;
             }
             if (playerScore == dealerScore)
             {
                 player.Balance += bet.Amount;
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"Oavgjort! Insatsen {bet.Amount} kr tillbaka! Saldo: {player.Balance} kr");
+                Console.ResetColor();
                 return;
             }
         }

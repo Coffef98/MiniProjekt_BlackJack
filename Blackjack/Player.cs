@@ -61,10 +61,31 @@ namespace Blackjack
 
         public void PrintHand()
         {
-            Console.Write($"{Name}: ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($"{Name.ToUpper()}: ");
+            Console.ResetColor();
 
-            Console.Write(string.Join(" + ",
-                Cards.Select(card => $"kort {card.Value}")));
+            for (int i = 0; i < Cards.Count; i++)
+            {
+                Card card = Cards[i];
+               
+                if (card.Suit == "Hjärter" || card.Suit == "Ruter")
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+                Console.Write($"{card.Name}{card.Symbol}");
+                Console.ResetColor();
+
+                if (i < Cards.Count - 1)
+                {
+                    Console.Write(" + ");
+                }
+            }
 
             Console.WriteLine($" = {GetScore()}p");
         }

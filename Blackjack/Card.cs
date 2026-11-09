@@ -5,6 +5,20 @@
         public string Suit { get; set; }
         public string Name { get; set; }
         public int Value { get; set; }
+        public string Symbol
+        {
+            get
+            {
+                return Suit switch
+                {
+                    "Hjärter" => "\u2665",
+                    "Ruter" => "\u2666",
+                    "Klöver" => "\u2663",
+                    "Spader" => "\u2660",
+                    _ => "?"
+                };
+            }
+        }
 
         public Card(string suit, string name)
         {

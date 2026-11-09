@@ -116,6 +116,22 @@ namespace Blackjack
                 double winRate = entry.Rounds > 0
                     ? (double)entry.RoundsWon / entry.Rounds * 100
                     : 0;
+                if (position == 1)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                }
+                else if (position == 2)
+                {
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+                else if (position == 3)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                }
+                else
+                {
+                    Console.ResetColor();
+                }
                 Console.WriteLine($"{position,-3} {entry.Name,-20} {entry.Score,8} kr | {entry.Rounds,5} rundor | {winRate,6:F1} %");
                 position++;
             }
